@@ -2,7 +2,7 @@ name: Veille articles
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # toutes les 30 minutes
+    - cron: "7,22,37,52 * * * *"   # toutes les 15 minutes (décalé de l'heure pile, moins encombrée)
   workflow_dispatch:          # bouton « Run workflow » pour lancer à la main
 
 permissions:
