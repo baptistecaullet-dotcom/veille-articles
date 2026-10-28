@@ -2,8 +2,13 @@ name: Veille articles
 
 on:
   schedule:
-    - cron: "7,22,37,52 * * * *"   # toutes les 15 minutes (décalé de l'heure pile, moins encombrée)
-  workflow_dispatch:          # bouton « Run workflow » pour lancer à la main
+    - cron: "17 * * * *"   # secours : une fois par heure (le rythme de 15 minutes vient de l'horloge Google)
+  workflow_dispatch:        # lancé toutes les 15 minutes par l'horloge Google, ou à la main
+    inputs:
+      test:
+        description: "Envoyer seulement une notification de test"
+        type: boolean
+        default: false
 
 permissions:
   contents: write             # pour enregistrer seen.json dans le dépôt
@@ -22,7 +27,7 @@ jobs:
       - name: Vérifier les sites
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-        run: python3 veille.py
+        run: python3 veille.py ${{ inputs.test && '--test' || '' }}
 
       - name: Enregistrer les articles vus
         if: always()
